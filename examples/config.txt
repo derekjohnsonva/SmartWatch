@@ -1,0 +1,3 @@
+Jessica, William, Kevin
+hand_wash, not_hand_wash 
+soap, sanitizer
