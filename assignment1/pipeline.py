@@ -1,5 +1,16 @@
 """
-Mostly copied from Derek's data_clean, run by providing the argument of the folder with all .csv files
+This script takes a folder with csv files, all with the format: timestamp, x, y, z
+It outputs a csv called aggregated_data.csv with the format:
+    'mean_x', 'std_x', 'mean_y', 'std_y', 'mean_z', 'std_z', 'Activity'
+
+Entries in this csv are the mean and standard deviation of the
+x, y, and z values for one second of data from the input csvs
+
+All data that does not make up a complete second is discarded
+
+The Activity label is determined by the name of the file.
+If the file contains the word "not" it gets a label of "not_hand_washing",
+otherwise it gets a label of "hand_washing".
 """
 
 import os
