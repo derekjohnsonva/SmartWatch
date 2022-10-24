@@ -16,8 +16,21 @@ otherwise it gets a label of "hand_washing".
 import os
 import sys
 import pandas as pd
+import math
 
 dirname = sys.argv[1]
+window = int(sys.argv[2])
+use_additional_features = "true" == sys.argv[3]
+print(use_additional_features)
+# https://stackoverflow.com/questions/40963659/root-mean-square-of-a-function-in-python
+def rms(x):
+    x_np = x.to_numpy()
+    ms = 0
+    for i in range(1, len(x_np)):
+        ms = ms + x_np[i]**2
+    ms = ms / len(x_np)
+    return math.sqrt(ms)
+
 filenames = []
 for fname in os.scandir(dirname):
     filenames.append(fname)
@@ -37,10 +50,18 @@ for file in filenames:
     first_timestamp = df['timestamp'].iloc[0]
     # subtract the first timestamp from all the other timestamps
     df['timestamp'] = df['timestamp'] - first_timestamp
-    df['timestamp'] = df['timestamp'] // 1000
+    df['timestamp'] = df['timestamp'] // (1000 * window)
 
-    df_split = df.groupby('timestamp').agg(
-        {'X': ['mean', 'std'], 'Y': ['mean', 'std'], 'Z': ['mean', 'std']})
+    if not use_additional_features:
+        df_split = df.groupby('timestamp').agg(
+            {'X': ['mean', 'std'], 'Y': ['mean', 'std'], 'Z': ['mean', 'std']})
+    else:
+        df_split = df.groupby('timestamp').agg(
+                    {
+                    'X': ['mean', 'std', 'median', rms],
+                    'Y': ['mean', 'std', 'median', rms],
+                    'Z': ['mean', 'std', 'median', rms]
+                    })
     # We only care about samples where we have 1 second of data,
     # thus we will drop the last row as it is incomplete
     df_split = df_split.drop(df_split.tail(1).index)
@@ -60,6 +81,13 @@ print("Aggregated Data")
 aggregated_data = aggregated_data.reset_index()
 aggregated_data = aggregated_data.drop(columns=['timestamp'], level=0)
 # Save the dataframe to a csv file
-aggregated_data.columns = ['mean_x', 'std_x', 'mean_y', 'std_y', 'mean_z', 'std_z', 'Activity']
-aggregated_data.to_csv('aggregated_data.csv', float_format='%.5f', index=False, header=True)
+if not use_additional_features:
+    aggregated_data.columns = ['mean_x', 'std_x', 'mean_y', 'std_y', 'mean_z', 'std_z', 'Activity']
+else:
+    aggregated_data.columns = [
+    'mean_x', 'std_x', 'median_x', 'rms_x',
+    'mean_y', 'std_y', 'median_y', 'rms_y',
+    'mean_z', 'std_z', 'median_z', 'rms_z',
+    'Activity']
+aggregated_data.to_csv('aggregated_data.csv', mode="w+", float_format='%.5f', index=False, header=True)
 print("finished")

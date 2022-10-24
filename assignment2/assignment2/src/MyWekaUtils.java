@@ -148,11 +148,11 @@ public class MyWekaUtils {
         return newList;
     }
 
-    public static int[] sequentialFeatureSelection(int[] features, String[][] csvData, int option) throws Exception {
+    public static int[] sequentialFeatureSelection(int features, String[][] csvData, int option) throws Exception {
         // convert features into an arrayList
         ArrayList<Integer> featureList = new ArrayList<Integer>();
-        for (int i = 0; i < features.length; i++) {
-            featureList.add(features[i]);
+        for (int i = 0; i < features; i++) {
+            featureList.add(i);
         }
         ArrayList<Integer> selectedFeatures = new ArrayList<Integer>();
         // Continue to run the loop until featureList is empty or the accuracy changes less than 1%
@@ -165,7 +165,7 @@ public class MyWekaUtils {
                 ArrayList<Integer> tempFeatureList = new ArrayList<Integer>(selectedFeatures);
                 tempFeatureList.add(feature);
                 // print the tempFeatureList
-                System.out.println("Trying feature set: " + tempFeatureList.toString());
+//                System.out.println("Trying feature set: " + tempFeatureList.toString());
                 // convert the tempFeatureList to an array
                 int[] tempFeatureArray = new int[tempFeatureList.size()];
 
@@ -181,10 +181,10 @@ public class MyWekaUtils {
                     featureToAdd = feature;
                 }
             }
-            // print the global best accuracy, the best accuracy for this run, and the feature to add
-            System.out.println("Previous best accuracy: " + previousBestAccuracy);
-            System.out.println("Best accuracy for this run: " + bestAccuracyForThisRun);
-            System.out.println("Feature to add: " + featureToAdd);
+//            // print the global best accuracy, the best accuracy for this run, and the feature to add
+//            System.out.println("Previous best accuracy: " + previousBestAccuracy);
+//            System.out.println("Best accuracy for this run: " + bestAccuracyForThisRun);
+//            System.out.println("Feature to add: " + featureToAdd);
             // if the accuracy from the last run is less than 1% different from the current accuracy, stop the loop
             if (Math.abs(bestAccuracyForThisRun - previousBestAccuracy) < 1) {
                 break;
