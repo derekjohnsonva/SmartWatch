@@ -12,13 +12,14 @@ public class App {
 //        Runtime.getRuntime().exec(command + param );
         Process p = Runtime.getRuntime().exec(command + param);
 
-        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+        BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
         String s = "";
 
         //print errors
         System.out.println("Errors: \n");
-        while ((s = stdError.readLine()) != null) {
+        while (s != null) {
+            s = stderr.readLine();
             System.out.println(s);
         }
 
