@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="assignment2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/assignment2/Wada.jar!/" />
+      <root url="jar://$PROJECT_DIR$/assignment2/weka.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

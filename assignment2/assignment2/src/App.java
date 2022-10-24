@@ -1,9 +1,29 @@
+import javax.xml.soap.SOAPPart;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws Exception {
         // The first argument should be a path to a CSV file
-        String csvPath = args[0];
+
+        String command = "python pipeline.py";
+        String param = " ProjectData/data";
+//        Runtime.getRuntime().exec(command + param );
+        Process p = Runtime.getRuntime().exec(command + param);
+
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+        String s = "";
+
+        //print errors
+        System.out.println("Errors: \n");
+        while ((s = stdError.readLine()) != null) {
+            System.out.println(s);
+        }
+
+        String csvPath = "aggregated_data.csv";
+
         // TODO: Add verification that the file exists
         String[][] csvData = MyWekaUtils.readCSV(csvPath);
         // make an int array of the indices of the features you want to use

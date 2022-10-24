@@ -62,3 +62,4 @@ aggregated_data = aggregated_data.drop(columns=['timestamp'], level=0)
 # Save the dataframe to a csv file
 aggregated_data.columns = ['mean_x', 'std_x', 'mean_y', 'std_y', 'mean_z', 'std_z', 'Activity']
 aggregated_data.to_csv('aggregated_data.csv', float_format='%.5f', index=False, header=True)
+print("finished")
