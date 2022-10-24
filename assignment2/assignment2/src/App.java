@@ -9,22 +9,9 @@ public class App {
 
         String command = "python pipeline.py";
         String param = " ProjectData/data";
-//        Runtime.getRuntime().exec(command + param );
         Process p = Runtime.getRuntime().exec(command + param);
 
-        BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-        String s = "";
-
-        //print errors
-        System.out.println("Errors: \n");
-        while (s != null) {
-            s = stderr.readLine();
-            System.out.println(s);
-        }
-
         String csvPath = "aggregated_data.csv";
-
         // TODO: Add verification that the file exists
         String[][] csvData = MyWekaUtils.readCSV(csvPath);
         // make an int array of the indices of the features you want to use
