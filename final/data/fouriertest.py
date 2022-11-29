@@ -20,7 +20,7 @@ def graph_fourier_transform(df, col):
     print(x)
     plt.show()"""
 
-data = read_from_file('data2.csv')
+data = read_from_file('80bpm.csv')
 data = trim_rows(data, 1000, -500)
 
 N = len(data['time'])
@@ -29,15 +29,15 @@ N = len(data['time'])
 T = (data['time'].iloc[-1] - data['time'].iloc[0]) / N / 1000
 print("spacing: ", T)
 
-yf = fft(np.array(data['x']))
+yf = fft(np.array(data['y']))
 xf = fftfreq(N, T)[:N//2]
 print(xf)
 modified_yf = 2.0/N * np.abs(yf[0:N//2])
 
 # create a plot with two subplots
 fig, ax = plt.subplots(2)
-ax[0].plot(xf, modified_yf)
-ax[1].plot(data['time'], data['x'])
+ax[0].plot(xf[:len(xf)//10], modified_yf[:len(xf)//10], linestyle="None", marker='o')
+ax[1].plot(data['time'], data['y'])
 
 #find top 3 peaks of the fourier transform
 maxes = np.argpartition(modified_yf, -3)[-3:]
