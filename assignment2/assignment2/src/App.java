@@ -3,6 +3,7 @@ import weka.core.stopwords.Null;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class App {
@@ -166,16 +167,22 @@ public class App {
             int[] featuresFromSFS = MyWekaUtils.sequentialFeatureSelection(12, getCSVData(), i);
             System.out.println("Features selected by SFS: " + Arrays.toString(featuresFromSFS));
 
-            double resultFeatureSet = WekaClassify(
-                    bestWindow,
-                    true,
-                    true,
-                    i,
-                    featuresFromSFS
-            );
-            String optionName = getClassifierNameFromOption(i);
-            System.out.println("Percentage Correct With " + optionName + " + additional parameters + feature selection, window = " +
-                    bestWindow + ": " + resultFeatureSet + "\n");
+            ArrayList<Integer> running_feature_set = new ArrayList<>();
+            for (int j : featuresFromSFS) {
+                running_feature_set.add(j);
+                double resultFeatureSet = WekaClassify(
+                        bestWindow,
+                        true,
+                        true,
+                        i,
+                        running_feature_set.stream().mapToInt(z -> z).toArray()
+                );
+                String optionName = getClassifierNameFromOption(i);
+                System.out.println("Percentage Correct With " + optionName + " + additional parameters " + running_feature_set.toString() + " window = " +
+                        bestWindow + ": " + resultFeatureSet);
+            }
+            System.out.println();
+
 
         }
     }
