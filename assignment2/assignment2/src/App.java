@@ -103,7 +103,7 @@ public class App {
         } else {
             arffData = MyWekaUtils.csvToArff(csvData, featureIndices);
         }
-
+        
         // classify the results and print the accuracy
         return MyWekaUtils.classify(arffData, option);
     }
