@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -89,7 +90,11 @@ def poll_all_dimensions(filename, start, end, show_graph=False):
 
 
 
-#df = read_from_file("80bpm.csv")
-#poll_all_dimensions("80bpm.csv", 1000, -1000, show_graph=True)
-result = poll_all_dimensions("/Users/noahholloway/Documents/SmartWatch/final/data/80bpm.csv", 1000, -1000, show_graph=False)
+# get the current directory
+dir_path = os.path.dirname(os.path.realpath(__file__))
+filepath = os.path.join(dir_path, "80bpm.csv")
+if not os.path.exists(filepath):
+    print("File 80bpm.csv not found")
+    exit(1)
+result = poll_all_dimensions(filepath, 1000, -1000, show_graph=True)
 print("Predicted BPM: ", result * 60)
