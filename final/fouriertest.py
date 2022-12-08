@@ -92,6 +92,8 @@ def poll_all_dimensions(filename, start, end, show_graph=False):
 
 # get the current directory
 dir_path = os.path.dirname(os.path.realpath(__file__))
+# add data folder to the path
+dir_path = os.path.join(dir_path, "data")
 filepath = os.path.join(dir_path, "80bpm.csv")
 if not os.path.exists(filepath):
     print("File 80bpm.csv not found")
